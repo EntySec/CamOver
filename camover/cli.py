@@ -41,17 +41,17 @@ class CamOverCLI(CamOver, Badges):
     args = parser.parse_args()
 
     def hack(self, host):
-        self.print_process(f"({host}) - connecting to device...")
+        self.print_process(f"({host}) - connecting to camera...")
         response = self.connect(host)
 
         if response is not None:
-            self.print_process(f"({host}) - accessing device configurations...")
+            self.print_process(f"({host}) - accessing camera config...")
             password = self.exploit(response)
 
             if password is not None:
-                self.print_process(f"({host}) - extracting credentials...")
+                self.print_process(f"({host}) - extracting admin password...")
                 return f"({host}) - password: {password}"
-            self.print_error(f"({host}) - configurations access denied!")
+            self.print_error(f"({host}) - config access denied!")
             return None
         self.print_error(f"({host}) - connection rejected!")
         return None
