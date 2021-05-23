@@ -25,17 +25,22 @@
 #
 
 class Badges:
-    def print_process(self, message):
+    @staticmethod
+    def print_process(message):
         print(f"\033[1;34m[*]\033[0m {message}")
 
-    def print_success(self, message):
+    @staticmethod
+    def print_success(message):
         print(f"\033[1;32m[+]\033[0m {message}")
 
-    def print_error(self, message):
+    @staticmethod
+    def print_error(message):
         print(f"\033[1;31m[-]\033[0m {message}")
 
-    def print_warning(self, message):
+    @staticmethod
+    def print_warning(message):
         print(f"\033[1;33m[!]\033[0m {message}")
 
-    def print_information(self, message):
+    @staticmethod
+    def print_information(message):
         print(f"\033[1;77m[i]\033[0m {message}")
