@@ -50,8 +50,7 @@ class CamOverCLI(CamOver, Badges):
 
             if creds is not None:
                 self.print_process(f"({host}) - extracting credentials...")
-                for username in creds.keys():
-                    return f"({host}) - {username}:{creds[username]}"
+                return f"({host}) - {creds[0]}:{creds[1]}"
             self.print_error(f"({host}) - configurations access denied!")
             return None
         self.print_error(f"({host}) - connection rejected!")
