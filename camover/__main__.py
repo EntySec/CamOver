@@ -38,7 +38,7 @@ class CamOver:
         return response
 
     @staticmethod
-    def exploit(self, response):
+    def exploit(response):
         if response.status_code == 200:
             strings = re.findall("[^\x00-\x1F\x7F-\xFF]{4,}", response.text)
             if 'admin' in strings:
