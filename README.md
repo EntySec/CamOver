@@ -19,7 +19,18 @@ pip3 install git+https://github.com/EntySec/CamOver
 To use CamOver just type `camover` in your terminal.
 
 ```
+usage: camover [-h] [--threads] [--output OUTPUT] [--input INPUT]
+               [--address ADDRESS]
 
+CamOver is a camera exploitation tool that allows to disclosure network camera
+admin password.
+
+optional arguments:
+  -h, --help         show this help message and exit
+  --threads          Use threads for fastest work.
+  --output OUTPUT    Output result to file.
+  --input INPUT      Input file of addresses.
+  --address ADDRESS  Single address.
 ```
 
 ### Examples
