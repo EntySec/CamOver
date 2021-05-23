@@ -42,7 +42,7 @@ class CamOver:
         if response.status_code == 200:
             strings = re.findall("[^\x00-\x1F\x7F-\xFF]{4,}", response.text)
             if 'admin' in strings:
-                username_index = strings.index(username)
+                username_index = strings.index('admin')
                 password = strings[username_index + 1]
                 return password
         return None
