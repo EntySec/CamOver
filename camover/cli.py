@@ -94,7 +94,7 @@ class CamOverCLI(CamOver, Badges):
                     with open(self.args.output, 'a') as f:
                         f.write(f"{result}\n")
         else:
-            parser.print_help()
+            self.parser.print_help()
 
 def main():
     cli = CamOverCLI()
