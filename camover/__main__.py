@@ -32,7 +32,7 @@ class CamOver:
     @staticmethod
     def connect(host):
         try:
-            response = requests.get(f"http://{host}/system.ini?loginuse&loginpas", verify=False, timeout=1)
+            response = requests.get(f"http://{host}/system.ini?loginuse&loginpas", verify=False, timeout=3)
         except Exception:
             return None
         return response
