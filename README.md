@@ -38,7 +38,7 @@ optional arguments:
 Let's hack my camera just for fun.
 
 ```shell
-rombuster --address 192.168.99.100
+camover --address 192.168.99.100
 ```
 
 **output:**
@@ -82,7 +82,7 @@ It will exploit all cameras in `cameras.txt` list by their addresses and save al
 
 ## CamOver API
 
-CamOver also has their own Python API that can be invoked by importing RomBuster to your code:
+CamOver also has their own Python API that can be invoked by importing CamOver to your code:
 
 ```python
 from camover import CamOver
