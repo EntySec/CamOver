@@ -28,7 +28,7 @@ from setuptools import setup, find_packages
 
 setup(name='camover',
       version='1.0',
-      description='CamOver',
+      description='CamOver is a camera exploitation tool that allows to disclosure network camera admin password.',
       url='http://github.com/EntySec/CamOver',
       author='EntySec',
       author_email='entysec@gmail.com',
