@@ -19,19 +19,21 @@ pip3 install git+https://github.com/EntySec/CamOver
 To use CamOver just type `camover` in your terminal.
 
 ```
-usage: camover [-h] [--threads] [--output OUTPUT] [--input INPUT]
-               [--address ADDRESS] [--api API]
+usage: camover [-h] [-t] [-o OUTPUT] [-i INPUT] [-a ADDRESS] [--api API]
 
 CamOver is a camera exploitation tool that allows to disclosure network camera
 admin password.
 
 optional arguments:
-  -h, --help         show this help message and exit
-  --threads          Use threads for fastest work.
-  --output OUTPUT    Output result to file.
-  --input INPUT      Input file of addresses.
-  --address ADDRESS  Single address.
-  --api API          Shodan API key for exploiting devices over Internet.
+  -h, --help            show this help message and exit
+  -t, --threads         Use threads for fastest work.
+  -o OUTPUT, --output OUTPUT
+                        Output result to file.
+  -i INPUT, --input INPUT
+                        Input file of addresses.
+  -a ADDRESS, --address ADDRESS
+                        Single address.
+  --api API             Shodan API key for exploiting devices over Internet.
 ```
 
 ### Examples
