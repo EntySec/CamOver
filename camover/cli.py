@@ -73,7 +73,7 @@ class CamOverCLI(CamOver, Badges):
             self.print_process("Authorizing Shodan by given API key...")
             try:
                 shodan = Shodan(self.args.api)
-                results = shodan.search(query='5ccc069c403ebaf9f0171e9517f40e41')
+                results = shodan.search(query='GoAhead 5ccc069c403ebaf9f0171e9517f40e41')
                 adresses = list()
                 for result in results['matches']:
                     addresses.append(result['ip_str'] + ':' + str(result['port']))
