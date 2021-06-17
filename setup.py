@@ -45,5 +45,8 @@ setup(name='camover',
           "Programming Language :: Python :: 3",
           "Programming Language :: Python :: 3.8",
       ],
+      install_requires=[
+          'shodan',
+      ],
       zip_safe=False
 )
