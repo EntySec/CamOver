@@ -20,7 +20,7 @@ To use CamOver just type `camover` in your terminal.
 
 ```
 usage: camover [-h] [--threads] [--output OUTPUT] [--input INPUT]
-               [--address ADDRESS]
+               [--address ADDRESS] [--api API]
 
 CamOver is a camera exploitation tool that allows to disclosure network camera
 admin password.
@@ -31,6 +31,7 @@ optional arguments:
   --output OUTPUT    Output result to file.
   --input INPUT      Input file of addresses.
   --address ADDRESS  Single address.
+  --api API          Shodan API key for exploiting devices over Internet.
 ```
 
 ### Examples
