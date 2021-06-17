@@ -74,7 +74,7 @@ class CamOverCLI(CamOver, Badges):
             try:
                 shodan = Shodan(self.args.api)
                 results = shodan.search(query='GoAhead 5ccc069c403ebaf9f0171e9517f40e41')
-                adresses = list()
+                addresses = list()
                 for result in results['matches']:
                     addresses.append(result['ip_str'] + ':' + str(result['port']))
             except Exception:
