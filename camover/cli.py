@@ -34,10 +34,10 @@ from .badges import Badges
 class CamOverCLI(CamOver, Badges):
     description = "CamOver is a camera exploitation tool that allows to disclosure network camera admin password."
     parser = argparse.ArgumentParser(description=description)
-    parser.add_argument('--threads', dest='threads', action='store_true', help='Use threads for fastest work.')
-    parser.add_argument('--output', dest='output', help='Output result to file.')
-    parser.add_argument('--input', dest='input', help='Input file of addresses.')
-    parser.add_argument('--address', dest='address', help='Single address.')
+    parser.add_argument('-t', '--threads', dest='threads', action='store_true', help='Use threads for fastest work.')
+    parser.add_argument('-o', '--output', dest='output', help='Output result to file.')
+    parser.add_argument('-i', '--input', dest='input', help='Input file of addresses.')
+    parser.add_argument('-a', '--address', dest='address', help='Single address.')
     parser.add_argument('--api', dest='api', help='Shodan API key for exploiting devices over Internet.')
     args = parser.parse_args()
 
