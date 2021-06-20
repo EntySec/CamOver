@@ -68,7 +68,7 @@ camover -t -i cameras.txt -o passwords.txt
 
 ## CamOver API
 
-CamOver also has their own Python API that can be invoked by importing CamOver to your code:
+CamOver also has their own Python API that can be invoked by importing CamOver to your code.
 
 ```python
 from camover import CamOver
