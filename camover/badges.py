@@ -24,6 +24,7 @@
 # SOFTWARE.
 #
 
+
 class Badges:
     @staticmethod
     def print_empty(message="", end='\n'):
