@@ -136,5 +136,8 @@ class CamOverCLI(CamOver, Badges):
         self.print_empty(end='')
 
 def main():
-    cli = CamOverCLI()
-    cli.start()
+    try:
+        cli = CamOverCLI()
+        cli.start()
+    except Exception:
+        pass
