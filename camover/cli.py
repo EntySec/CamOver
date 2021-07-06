@@ -92,6 +92,12 @@ class CamOverCLI(CamOver, Badges):
             counter += 1
         
     def start(self):
+        if self.args.output:
+            directory = os.path.split(self.args.output)[0]
+            if not os.path.isdir(directory):
+                self.print_error(f"Directory: {directory}: does not exist!")
+                return
+
         if self.args.zoomeye:
             self.print_process("Authorizing ZoomEye by given API key...")
             try:
