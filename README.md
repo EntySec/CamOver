@@ -1,6 +1,18 @@
 # CamOver
 
- CamOver is a camera exploitation tool that allows to disclosure network camera admin password.
+<p>
+    <a href="https://entysec.netlify.app">
+        <img src="https://img.shields.io/badge/developer-EntySec-3572a5.svg">
+    </a>
+    <a href="https://github.com/EntySec/CamOver">
+        <img src="https://img.shields.io/badge/language-Python-3572a5.svg">
+    </a>
+    <a href="https://github.com/EntySec/CamOver/stargazers">
+        <img src="https://img.shields.io/github/stars/EntySec/CamOver?color=yellow">
+    </a>
+</p>
+
+CamOver is a camera exploitation tool that allows to disclosure network camera admin password.
 
 ## Features
 
