@@ -40,11 +40,6 @@ setup(name='camover',
                 "camover = camover.cli:main"
           ]
       },
-      classifiers=[
-          "Programming Language :: Python",
-          "Programming Language :: Python :: 3",
-          "Programming Language :: Python :: 3.8",
-      ],
       install_requires=[
           'shodan',
       ],
