@@ -118,6 +118,9 @@ print(creds)
     <a href="https://github.com/EntySec/HatSploit">
         <img src="https://img.shields.io/badge/EntySec-HatSploit-3572a5.svg">
     </a>
+    <a href="https://github.com/EntySec/HatBoard">
+        <img src="https://img.shields.io/badge/EntySec-HatBoard-3572a5.svg">
+    </a>
     <a href="https://github.com/EntySec/HatVenom">
         <img src="https://img.shields.io/badge/EntySec-HatVenom-3572a5.svg">
     </a>
@@ -132,9 +135,6 @@ print(creds)
     </a>
     <a href="https://github.com/EntySec/Shreder">
         <img src="https://img.shields.io/badge/EntySec-Shreder-3572a5.svg">
-    </a>
-    <a href="https://github.com/EntySec/Paranoid">
-        <img src="https://img.shields.io/badge/EntySec-Paranoid-3572a5.svg">
     </a>
     <a href="https://github.com/EntySec/membrane">
         <img src="https://img.shields.io/badge/EntySec-membrane-f34c79.svg">
