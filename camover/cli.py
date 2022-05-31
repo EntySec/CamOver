@@ -1,34 +1,31 @@
-#!/usr/bin/env python3
+"""
+MIT License
 
-#
-# MIT License
-#
-# Copyright (c) 2020-2022 EntySec
-#
-# Permission is hereby granted, free of charge, to any person obtaining a copy
-# of this software and associated documentation files (the "Software"), to deal
-# in the Software without restriction, including without limitation the rights
-# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-# copies of the Software, and to permit persons to whom the Software is
-# furnished to do so, subject to the following conditions:
-#
-# The above copyright notice and this permission notice shall be included in all
-# copies or substantial portions of the Software.
-#
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-# SOFTWARE.
-#
+Copyright (c) 2020-2022 EntySec
 
-import os
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+"""
+
 import argparse
-import threading
+import os
 import requests
-
+import threading
 from shodan import Shodan
 from time import sleep as thread_delay
 
@@ -37,9 +34,19 @@ from .badges import Badges
 
 
 class CamOverCLI(CamOver, Badges):
+    """ Subclass of camover module.
+
+    This subclass of camover module is intended for providing
+    command-line interface for CamOver.
+    """
+
     thread_delay = 0.1
 
-    description = "CamOver is a camera exploitation tool that allows to disclosure network camera admin password."
+    description = (
+        'CamOver is a camera exploitation tool that allows to'
+        ' disclosure network camera admin password.'
+    )
+
     parser = argparse.ArgumentParser(description=description)
     parser.add_argument('-t', '--threads', dest='threads', action='store_true', help='Use threads for fastest work.')
     parser.add_argument('-o', '--output', dest='output', help='Output result to file.')
@@ -50,7 +57,13 @@ class CamOverCLI(CamOver, Badges):
     parser.add_argument('-p', '--pages', dest='pages', type=int, help='Number of pages you want to get from ZoomEye.')
     args = parser.parse_args()
 
-    def thread(self, address):
+    def thread(self, address: str) -> bool:
+        """ Start new thread for the specified address.
+
+        :param str address: device address
+        :return bool: True if thread succeed
+        """
+
         result = self.exploit(address)
 
         if result:
@@ -63,8 +76,14 @@ class CamOverCLI(CamOver, Badges):
             return True
         return False
 
-    def crack(self, addresses):
-        line = "/-\|"
+    def crack(self, addresses: list) -> None:
+        """ Crack all devices from the specified list.
+
+        :param list addresses: list of devices addresses
+        :return None: None
+        """
+
+        line = "/-\\|"
 
         counter = 0
         threads = list()
@@ -82,7 +101,7 @@ class CamOverCLI(CamOver, Badges):
                 thread.start()
                 threads.append(thread)
             counter += 1
-            
+
         counter = 0
         for thread in threads:
             if counter >= len(line):
@@ -92,8 +111,13 @@ class CamOverCLI(CamOver, Badges):
             if thread.is_alive():
                 thread.join()
             counter += 1
-        
-    def start(self):
+
+    def start(self) -> None:
+        """ Main command-line arguments handler.
+
+        :return None: None
+        """
+
         if self.args.output:
             directory = os.path.split(self.args.output)[0]
 
@@ -164,7 +188,13 @@ class CamOverCLI(CamOver, Badges):
             return
         self.print_empty(end='')
 
-def main():
+
+def main() -> None:
+    """ CamOver command-line interface.
+
+    :return None: None
+    """
+
     try:
         cli = CamOverCLI()
         cli.start()
