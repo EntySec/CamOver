@@ -26,13 +26,16 @@ import re
 import requests
 
 
-class CamOver:
+class CamOver(object):
     """ Main class of camover module.
 
     This main class of camover module is intended for providing
     an exploit for network camera vulnerability that extracts credentials
     from the obtained system.ini file.
     """
+
+    def __init__(self):
+        super().__init__()
 
     @staticmethod
     def exploit(address: str) -> tuple:
