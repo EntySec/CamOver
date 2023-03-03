@@ -23,12 +23,15 @@ SOFTWARE.
 """
 
 
-class Badges:
+class Badges(object):
     """ Subclass of camover module.
 
     This subclass of camover module is intended for providing
     some message printing methods.
     """
+
+    def __init__(self):
+        super().__init__()
 
     @staticmethod
     def print_empty(message: str = "", end: str = '\n') -> None:
