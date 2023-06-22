@@ -43,6 +43,7 @@ setup(name='camover',
       },
       install_requires=[
           'shodan',
+          'badges @ git+https://github.com/EntySec/Badges'
       ],
       zip_safe=False
       )
