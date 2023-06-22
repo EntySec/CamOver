@@ -30,7 +30,7 @@ from shodan import Shodan
 from time import sleep as thread_delay
 
 from .__main__ import CamOver
-from .badges import Badges
+from badges import Badges
 
 
 class CamOverCLI(CamOver, Badges):
