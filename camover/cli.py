@@ -201,5 +201,5 @@ def main() -> None:
     try:
         cli = CamOverCLI()
         cli.start()
-    except Exception:
+    except BaseException:
         pass
