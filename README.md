@@ -14,7 +14,7 @@
         <img src="https://img.shields.io/github/stars/EntySec/CamOver?color=yellow">
     </a>
     <a href="https://www.codefactor.io/repository/github/EntySec/CamOver">
-        <img src="https://www.codefactor.io/repository/github/EntySec/CamOver/badge" />
+        <img src="https://www.codefactor.io/repository/github/EntySec/CamOver/badge">
     </a>
 </p>
 
