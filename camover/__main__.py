@@ -54,7 +54,7 @@ class CamOver(object):
                 timeout=3
             )
         except Exception:
-            return None, None
+            return
 
         if response.status_code == 200:
             strings = re.findall("[^\x00-\x1F\x7F-\xFF]{4,}", response.text)
