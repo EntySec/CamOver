@@ -1,22 +1,10 @@
 # CamOver
 
-<p>
-    <a href="https://entysec.com">
-        <img src="https://img.shields.io/badge/developer-EntySec-blue.svg">
-    </a>
-    <a href="https://github.com/EntySec/CamOver">
-        <img src="https://img.shields.io/badge/language-Python-blue.svg">
-    </a>
-    <a href="https://github.com/EntySec/CamOver/forks">
-        <img src="https://img.shields.io/github/forks/EntySec/CamOver?color=green">
-    </a>
-    <a href="https://github.com/EntySec/CamOver/stargazers">
-        <img src="https://img.shields.io/github/stars/EntySec/CamOver?color=yellow">
-    </a>
-    <a href="https://www.codefactor.io/repository/github/EntySec/CamOver">
-        <img src="https://www.codefactor.io/repository/github/EntySec/CamOver/badge">
-    </a>
-</p>
+[![Developer](https://img.shields.io/badge/developer-EntySec-blue.svg)](https://entysec.com)
+[![Language](https://img.shields.io/badge/language-Python-blue.svg)](https://github.com/EntySec/CamOver)
+[![Forks](https://img.shields.io/github/forks/EntySec/CamOver?style=flat&color=green)](https://github.com/EntySec/CamOver/forks)
+[![Stars](https://img.shields.io/github/stars/EntySec/CamOver?style=flat&color=yellow)](https://github.com/EntySec/CamOver/stargazers)
+[![CodeFactor](https://www.codefactor.io/repository/github/EntySec/CamOver/badge)](https://www.codefactor.io/repository/github/EntySec/CamOver)
 
 CamOver is a camera exploitation tool that allows to disclosure network camera admin password.
 
