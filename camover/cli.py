@@ -22,15 +22,17 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-import argparse
 import os
+import argparse
 import requests
 import threading
+
+from badges import Badges
 from shodan import Shodan
+
 from time import sleep as thread_delay
 
 from .__main__ import CamOver
-from badges import Badges
 
 
 class CamOverCLI(CamOver, Badges):
@@ -40,25 +42,22 @@ class CamOverCLI(CamOver, Badges):
     command-line interface for CamOver.
     """
 
-    def __init__(self) -> None:
-        super().__init__()
+    thread_delay = 0.1
 
-        self.thread_delay = 0.1
+    description = (
+        'CamOver is a camera exploitation tool that allows to'
+        ' disclosure network camera admin password.'
+    )
 
-        self.description = (
-            'CamOver is a camera exploitation tool that allows to'
-            ' disclosure network camera admin password.'
-        )
-
-        self.parser = argparse.ArgumentParser(description=self.description)
-        self.parser.add_argument('-t', '--threads', dest='threads', action='store_true', help='Use threads for fastest work.')
-        self.parser.add_argument('-o', '--output', dest='output', help='Output result to file.')
-        self.parser.add_argument('-i', '--input', dest='input', help='Input file of addresses.')
-        self.parser.add_argument('-a', '--address', dest='address', help='Single address.')
-        self.parser.add_argument('--shodan', dest='shodan', help='Shodan API key for exploiting devices over Internet.')
-        self.parser.add_argument('--zoomeye', dest='zoomeye', help='ZoomEye API key for exploiting devices over Internet.')
-        self.parser.add_argument('-p', '--pages', dest='pages', type=int, help='Number of pages you want to get from ZoomEye.')
-        self.args = self.parser.parse_args()
+    parser = argparse.ArgumentParser(description=description)
+    parser.add_argument('-t', '--threads', dest='threads', action='store_true', help='Use threads for fastest work.')
+    parser.add_argument('-o', '--output', dest='output', help='Output result to file.')
+    parser.add_argument('-i', '--input', dest='input', help='Input file of addresses.')
+    parser.add_argument('-a', '--address', dest='address', help='Single address.')
+    parser.add_argument('--shodan', dest='shodan', help='Shodan API key for exploiting devices over Internet.')
+    parser.add_argument('--zoomeye', dest='zoomeye', help='ZoomEye API key for exploiting devices over Internet.')
+    parser.add_argument('-p', '--pages', dest='pages', type=int, help='Number of pages you want to get from ZoomEye.')
+    args = parser.parse_args()
 
     def thread(self, address: str) -> bool:
         """ Start new thread for the specified address.
