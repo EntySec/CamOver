@@ -34,9 +34,6 @@ class CamOver(object):
     from the obtained system.ini file.
     """
 
-    def __init__(self) -> None:
-        super().__init__()
-
     @staticmethod
     def exploit(address: str) -> tuple:
         """ Exploit the vulnerability in network camera and extract credentials
